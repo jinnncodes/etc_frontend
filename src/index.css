@@ -1,0 +1,209 @@
+@import "tailwindcss";
+
+.login-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 1rem;
+  background-color: #242424;
+  font-family: monospace;
+  color: #fff;
+}
+
+/* Card */
+.login-card {
+  background-color: #1a1a1a;
+  padding: 2rem;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.backgroundnone{
+  background: none;
+}
+
+/* Headings */
+.login-card h1 {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+/* Form groups */
+.form-group {
+  margin-bottom: 1rem;
+}
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 0.6rem 0.8rem;
+  border-radius: 8px;
+  border: 1px solid #333;
+  font-size: 1rem;
+  background-color: #2a2a2a;
+  color: #fff;
+}
+
+/* Input focus */
+.form-group input:focus,
+.form-group select:focus {
+  outline: 2px solid #646cff;
+}
+
+/* Button */
+button {
+  /* width: 100%; */
+  padding: 0.8rem;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  background-color: #646cff;
+  color: #fff;
+  transition: background 0.2s, border-color 0.2s;
+}
+button:hover {
+  background-color: #535bf2;
+}
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Message */
+.message {
+  text-align: center;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+
+.login-card button {
+  width: 100%;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  background-color: #646cff;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.login-card button:hover {
+  background-color: #535bf2;
+}
+
+.login-card button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 480px) {
+  .login-card {
+    padding: 1.5rem;
+  }
+  .login-card h1 {
+    font-size: 1.8rem;
+  }
+  .form-group input,
+  .form-group select {
+    font-size: 0.95rem;
+  }
+  button {
+    font-size: 0.95rem;
+  }
+}
+
+/* Make all inputs and selects same width and style */
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 0.6rem 0.8rem;
+  border-radius: 8px;
+  border: 1px solid #333;
+  font-size: 1rem;
+  background-color: #2a2a2a;
+  color: #fff;
+  box-sizing: border-box; /* ensures padding + border included in width */
+}
+
+/* Focus style for both */
+.form-group input:focus,
+.form-group select:focus {
+  outline: 2px solid #646cff;
+}
+
+.dashboard-wrapper {
+  font-family: monospace;
+  color: #fff;
+  background-color: #242424;
+  min-height: 100vh;
+  padding: 1rem;
+}
+
+.dashboard-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.dashboard-header h1 {
+  font-size: 2.5rem;
+}
+
+.dashboard-main p {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 1.1rem;
+}
+
+.dashboard-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+}
+
+.card {
+  background-color: #1a1a1a;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  transition: transform 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+}
+
+.card h2 {
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.card p {
+  font-size: 1rem;
+  color: #aaa;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 480px) {
+  .dashboard-header h1 {
+    font-size: 2rem;
+  }
+  .card {
+    padding: 1rem;
+  }
+  .card h2 {
+    font-size: 1.1rem;
+  }
+  .card p {
+    font-size: 0.95rem;
+  }
+}
