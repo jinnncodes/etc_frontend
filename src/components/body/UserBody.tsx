@@ -1,6 +1,7 @@
 import { useState, useMemo } from "react";
 import Button from "../common/Button";
 import { mockUsers } from "../dummy/mockUsers";
+import ExportToExcel from "../common/ExporttoExcel";
 
 export default function UserBody() {
   const [filter, setFilter] = useState("");
@@ -15,7 +16,7 @@ export default function UserBody() {
 
   return (
     <div className="w-full bg-white rounded-lg shadow p-6 min-h-[500px] flex flex-col">
-      {/* Header: Filter + Buttons */}
+      {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-2">
         <input
           id="userfilter"
@@ -30,6 +31,12 @@ export default function UserBody() {
           <Button color="green" size="sm" onClick={() => alert("Add new user clicked")}>
             Add User
           </Button>
+
+          {/* Export */}
+          <ExportToExcel
+            fileName="User_List"
+            data={filteredUsers}
+          />
         </div>
       </div>
 

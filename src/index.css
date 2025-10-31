@@ -58,20 +58,20 @@
 }
 
 /* Button */
+/* 
 button {
-  /* width: 100%; */
-  padding: 0.8rem;
+  padding: 0.5rem;
   border-radius: 8px;
   border: 1px solid transparent;
   font-size: 1rem;
   font-weight: 500;
   cursor: pointer;
-  background-color: #646cff;
   color: #fff;
   transition: background 0.2s, border-color 0.2s;
-}
+} */
+
 button:hover {
-  background-color: #535bf2;
+  background-color: #364153;
 }
 button:disabled {
   opacity: 0.6;

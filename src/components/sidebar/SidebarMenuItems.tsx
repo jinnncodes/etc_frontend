@@ -32,19 +32,19 @@ export default function SidebarMenuItems({ sidebarOpen }: SidebarMenuItemsProps)
           <button
             key={label}
             onClick={() => navigate(route)}
+            aria-current={isActive ? "page" : undefined}
             className={`
-              backgroundnone flex flex-col items-start rounded hover:bg-indigo-600 transition-all w-full
-              ${sidebarOpen ? "px-3 py-3" : "p-3 justify-center"}
+              flex items-center w-full rounded transition-colors
+              ${isActive ? "bg-gray-700" : "hover:bg-gray-600"}
+              ${sidebarOpen ? "px-3 py-3 justify-start" : "p-3 justify-center"}
             `}
           >
-            <div className={`flex items-center w-full ${isActive ? "border-b-2 border-white-500 pb-2" : ""}`}>
-              {icon}
-              {sidebarOpen && (
-                <span className="ml-3 text-sm font-medium transition-all duration-300">
-                  {label}
-                </span>
-              )}
-            </div>
+            {icon}
+            {sidebarOpen && (
+              <span className={`ml-3 text-sm font-medium transition-opacity duration-300`}>
+                {label}
+              </span>
+            )}
           </button>
         );
       })}
