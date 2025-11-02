@@ -41,7 +41,7 @@ export default function RequestModal({ show, onClose, type }: RequestModalProps)
   };
 
   return (
-    <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+    <div className="fixed inset-0 bg-black/40 flex items-start justify-center z-50 pt-25">
       <div className="bg-white rounded-lg shadow-lg w-full max-w-md p-6 text-black">
         <h2 className="text-xl font-semibold mb-4">{type} Request</h2>
         <form className="flex flex-col gap-3" onSubmit={handleSubmit}>

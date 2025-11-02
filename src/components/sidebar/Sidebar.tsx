@@ -1,37 +1,44 @@
-import { useEffect, useState } from "react";
-import { Menu, ChevronDown, ChevronUp } from "lucide-react";
-import { logout } from "../../api/auth";
-import { useNavigate } from "react-router-dom";
-import Modal from "../common/Modal";
+import { useState, useEffect } from "react";
+import { Sidebar, Menu, sidebarClasses } from "react-pro-sidebar";
 import SidebarMenuItems from "./SidebarMenuItems";
+import { Menu as MenuIcon } from "lucide-react";
+import { logout } from "../../api/auth";
+import Modal from "../common/Modal";
+import { useNavigate } from "react-router-dom";
 
 interface SidebarProps {
   userName: string;
 }
 
-export default function Sidebar({ userName }: SidebarProps) {
-  const [isOpen, setIsOpen] = useState(false);
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+export default function MySidebar({ userName }: SidebarProps) {
+  const [collapsed, setCollapsed] = useState(false);
   const [profileMenuOpen, setProfileMenuOpen] = useState(false);
-  const [showModal, setShowModal] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const [sidebarOpen, setSidebarOpen] = useState(!isMobile);
   const [modalMessage, setModalMessage] = useState("");
+  const [showModal, setShowModal] = useState(false);
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    const handleResize = () => {
+      const mobile = window.innerWidth < 768;
+      setIsMobile(mobile);
+      setSidebarOpen(!mobile);
+    };
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   const toggleSidebar = () => {
-    if (isMobile) setIsOpen((prev) => !prev);
+    if (isMobile) setSidebarOpen((prev) => !prev);
+    else setCollapsed((prev) => !prev);
   };
 
   const handleLogout = async () => {
     try {
       const message = await logout();
-      setModalMessage(message || "Logout Successfully");
+      setModalMessage(message || "Logout Successful");
       setShowModal(true);
     } catch (err: unknown) {
       setModalMessage(err instanceof Error ? err.message : "Logout failed");
@@ -41,88 +48,97 @@ export default function Sidebar({ userName }: SidebarProps) {
 
   const handleModalOk = () => {
     setShowModal(false);
-    navigate("/"); // redirect after logout
+    navigate("/");
   };
-
-  const sidebarOpen = !isMobile || isOpen;
 
   return (
     <>
-      {/* Hamburger Button */}
+      {/* Hamburger button */}
       {isMobile && (
         <button
           onClick={toggleSidebar}
-          className="fixed top-4 left-4 z-50 h-14 w-14 bg-gray-800 rounded-r-md flex items-center justify-center md:hidden"
+          className="fixed top-4 left-4 z-50 p-2 bg-gray-800 rounded-r-md text-white md:hidden"
         >
-          <Menu className="w-7 h-7 text-white" />
+          <MenuIcon className="w-6 h-6" />
         </button>
       )}
 
       {/* Sidebar */}
-      <aside
-        className={`
-          fixed top-0 left-0 h-screen bg-gray-800 flex flex-col justify-between
-          transition-all duration-300 z-40 shadow-lg
-          ${sidebarOpen ? "w-72 px-4 py-6" : "w-24 px-2 py-6"}
-          md:w-72 md:px-4 md:static
-        `}
-      >
-        {/* Logo */}
-        <div className="flex items-center justify-center mb-10">
-          {sidebarOpen ? (
-            <span className="text-3xl font-bold text-white">MyApp</span>
-          ) : (
-            <span className="text-2xl font-bold text-white">M</span>
-          )}
-        </div>
-
-        {/* Menu Items */}
-        <nav className="flex flex-col gap-2 flex-1">
-          <SidebarMenuItems sidebarOpen={sidebarOpen} />
-        </nav>
-
-        {/* Profile */}
-        <div className="relative">
+      {sidebarOpen && (
+        <Sidebar
+          collapsed={collapsed}
+          rootStyles={{
+            backgroundColor: "#1F2937",
+            [`& .${sidebarClasses.container}`]: {
+              height: "100vh",
+              backgroundColor: "#1F2937",
+              display: "flex",
+              flexDirection: "column",
+            },
+          }}
+        >
+          {/* Logo */}
           <div
-            onClick={() => setProfileMenuOpen((prev) => !prev)}
-            className={`flex items-center rounded-md cursor-pointer transition-all duration-300 ${
-              sidebarOpen ? "space-x-3 bg-gray-900 px-3 py-2" : "justify-center bg-gray-800 p-2"
-            }`}
+            className="flex items-center justify-start p-4 cursor-pointer text-white"
+            onClick={toggleSidebar}
+            style={{marginBottom: "20px"}}
           >
-            <div className="w-10 h-10 rounded-full bg-indigo-600 flex items-center justify-center font-bold text-white">
-              {userName.charAt(0).toUpperCase()}
-            </div>
-            {sidebarOpen && (
-              <>
-                <span className="font-medium transition-all duration-300">{userName}</span>
-                {profileMenuOpen ? (
-                  <ChevronUp className="w-4 h-4 text-white" />
-                ) : (
-                  <ChevronDown className="w-4 h-4 text-white" />
-                )}
-              </>
+            {!collapsed ? (
+              <span className="text-2xl font-bold">MyApp</span>
+            ) : (
+              <span>M</span>
             )}
           </div>
 
-          {/* Dropdown Card */}
-          {sidebarOpen && profileMenuOpen && (
-            <div className="absolute bottom-full mb-2 left-0 bg-gray-800 rounded-xl shadow-lg overflow-hidden border border-green-500 w-full">
-              <div
-                className="px-4 py-3 hover:bg-gray-700 cursor-pointer text-white text-sm"
-                onClick={() => alert("Change Password clicked")}
-              >
-                Change Password
+          {/* Menu */}
+          <Menu
+            menuItemStyles={{
+              button: ({ active }) => ({
+                backgroundColor: active ? "#374151" : "transparent",
+                "&:hover": { backgroundColor: "#4B5563" }, 
+                color: "white",
+                width: "100%", 
+                justifyContent: "flex-start", 
+                padding: "0.75rem 1rem",
+                marginTop: "0.75rem"
+              }),
+            }}
+          >
+            {/* SidebarMenuItems will handle icon + label */}
+            <SidebarMenuItems collapsed={collapsed} gap="gap-6" />
+          </Menu>
+
+          {/* Profile at bottom-left */}
+          <div className="mt-auto p-4 flex flex-col items-start relative">
+            <div
+              className="flex items-center gap-2 cursor-pointer"
+              onClick={() => setProfileMenuOpen((prev) => !prev)}
+            >
+              <div className="w-10 h-10 rounded-full bg-indigo-600 flex items-center justify-center font-bold text-white">
+                {userName.charAt(0).toUpperCase()}
               </div>
-              <div
-                className="px-4 py-3 hover:bg-gray-700 cursor-pointer text-white text-sm"
-                onClick={handleLogout}
-              >
-                Logout
-              </div>
+              {!collapsed && <span className="text-white">{userName}</span>}
             </div>
-          )}
-        </div>
-      </aside>
+
+            {!collapsed && profileMenuOpen && (
+              <div className="absolute left-0 bottom-14 w-full bg-gray-800 rounded shadow z-50">
+                <div
+                  className="px-4 py-2 hover:bg-gray-700 cursor-pointer text-white"
+                  onClick={() => alert("Change Password clicked")}
+                >
+                  Change Password
+                </div>
+                <div
+                  className="px-4 py-2 hover:bg-gray-700 cursor-pointer text-white"
+                  onClick={handleLogout}
+                >
+                  Logout
+                </div>
+              </div>
+            )}
+          </div>
+        </Sidebar>
+      )}
 
       {/* Modal */}
       <Modal show={showModal} message={modalMessage} onClose={handleModalOk} />
